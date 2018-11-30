@@ -1,0 +1,34 @@
+{
+  "name": "pretty-release",
+  "version": "0.1.0",
+  "description": "Prettify release notes ✨",
+  "main": "index.js",
+  "author": "ahanriat <ahanriat@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "test": "jest",
+    "tdd": "jest --watch"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@types/jest": "^23.3.10",
+    "@types/lodash": "^4.14.118",
+    "@types/node": "^10.12.11",
+    "babel-core": "^7.0.0-bridge",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "jest": "^23.6.0",
+    "metro-react-native-babel-preset": "0.49.0",
+    "prettier": "^1.15.3",
+    "ts-node": "^7.0.1",
+    "tslint": "5.11.0",
+    "tslint-config-prettier": "1.15.0",
+    "tslint-consistent-codestyle": "1.13.3",
+    "tslint-plugin-prettier": "1.3.0",
+    "typescript": "^3.2.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
+  }
+}
