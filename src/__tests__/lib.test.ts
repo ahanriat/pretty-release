@@ -75,5 +75,8 @@ describe('pretty release', () => {
     test('Prettify the release note', () => {
       expect(prettifyRelease(ugglyReleaseNote)).toEqual(prettyReleaseNote);
     });
+    test('Prettify the release note is re entrant', () => {
+      expect(prettifyRelease(prettifyRelease(ugglyReleaseNote))).toEqual(prettyReleaseNote);
+    });
   });
 });
