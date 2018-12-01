@@ -1,0 +1,1 @@
+export { prettifyRelease } from './lib';
