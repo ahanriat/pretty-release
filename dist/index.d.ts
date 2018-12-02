@@ -1,1 +1,1 @@
-export { prettifyRelease } from './lib';
+export { prettifyRelease, prettifyReleaseFromFile } from './lib';

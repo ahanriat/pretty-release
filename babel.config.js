@@ -3,7 +3,14 @@ module.exports = function(api) {
   api.cache(false);
   return {
     presets: [
-      'module:metro-react-native-babel-preset',
+      [
+        '@babel/preset-env',
+        {
+          targets: {
+            node: '10',
+          },
+        },
+      ],
     ],
     plugins: [
       [
