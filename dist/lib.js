@@ -1,4 +1,5 @@
 import { groupBy } from 'lodash';
+import fs from 'fs';
 const categoryOrder = [
     { type: 'feature', label: '### Features 🧬:' },
     { type: 'enhancement', label: '### Enhancements ⚡️:' },
@@ -8,6 +9,10 @@ const categoryOrder = [
     { type: 'doc', label: '### Doc 📖:' },
     { type: 'unknown', label: '### To be sorted 👈' },
 ];
+export function prettifyReleaseFromFile(releaseNotePath, outputFilePath) {
+    const rawReleaseNote = fs.readFileSync(releaseNotePath).toString();
+    fs.writeFileSync(outputFilePath, prettifyRelease(rawReleaseNote));
+}
 export function prettifyRelease(release) {
     const { title, messages } = parseRelease(release);
     const groupedMessages = groupBy(messages, categorizeMessage);

@@ -13,7 +13,7 @@
     "noUnusedParameters": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    "esModuleInterop": false,
     "baseUrl": "./",
     "paths": {
       "~/*": ["src/*"]
