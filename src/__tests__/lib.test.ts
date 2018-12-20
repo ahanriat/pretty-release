@@ -1,5 +1,5 @@
 import { ugglyReleaseNote, prettyReleaseNote } from './blob/release-note-1';
-import { parseRelease, prettifyRelease, categorizeMessage, prettifyReleaseFromFile } from '~/lib';
+import { parseRelease, prettifyRelease, categorizeMessage } from '~/lib';
 
 describe('pretty release', () => {
   describe('parseRelease', () => {
@@ -77,15 +77,6 @@ describe('pretty release', () => {
     });
     test('Prettify the release note is re entrant', () => {
       expect(prettifyRelease(prettifyRelease(ugglyReleaseNote))).toEqual(prettyReleaseNote);
-    });
-  });
-
-  describe('Prettify files', () => {
-    test('prettify the file correctly', () => {
-      prettifyReleaseFromFile(
-        './src/__tests__/blob/release-note.md',
-        './src/__tests__/blob/release-note-pretty.md',
-      );
     });
   });
 });

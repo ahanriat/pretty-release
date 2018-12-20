@@ -71,9 +71,4 @@ describe('pretty release', () => {
             expect(lib_1.prettifyRelease(lib_1.prettifyRelease(release_note_1_1.ugglyReleaseNote))).toEqual(release_note_1_1.prettyReleaseNote);
         });
     });
-    describe('Prettify files', () => {
-        test('prettify the file correctly', () => {
-            lib_1.prettifyReleaseFromFile('./src/__tests__/blob/release-note.md', './src/__tests__/blob/release-note-pretty.md');
-        });
-    });
 });

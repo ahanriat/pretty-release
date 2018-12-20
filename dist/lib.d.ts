@@ -1,5 +1,4 @@
 declare type Category = 'feature' | 'enhancement' | 'analytics' | 'fix' | 'upgrade' | 'doc' | 'unknown';
-export declare function prettifyReleaseFromFile(releaseNotePath: string, outputFilePath: string): void;
 export declare function prettifyRelease(release: string): string;
 interface ParsedReleaseNote {
     title: string;

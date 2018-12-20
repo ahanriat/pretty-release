@@ -1,7 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_1 = require("lodash");
-const fs_1 = require("fs");
 const categoryOrder = [
     { type: 'feature', label: '### Features 🧬:' },
     { type: 'enhancement', label: '### Enhancements ⚡️:' },
@@ -11,14 +9,9 @@ const categoryOrder = [
     { type: 'doc', label: '### Doc 📖:' },
     { type: 'unknown', label: '### To be sorted 👈' },
 ];
-function prettifyReleaseFromFile(releaseNotePath, outputFilePath) {
-    const rawReleaseNote = fs_1.default.readFileSync(releaseNotePath).toString();
-    fs_1.default.writeFileSync(outputFilePath, prettifyRelease(rawReleaseNote));
-}
-exports.prettifyReleaseFromFile = prettifyReleaseFromFile;
 function prettifyRelease(release) {
     const { title, messages } = parseRelease(release);
-    const groupedMessages = lodash_1.groupBy(messages, categorizeMessage);
+    const groupedMessages = groupBy(messages, categorizeMessage);
     const categories = categoryOrder
         .map(categ => {
         const messagesForCategory = groupedMessages[categ.type];
@@ -97,4 +90,16 @@ function isMessage(line = '') {
  */
 function prettifyMessage(message) {
     return `  - ${message.replace('-', '').trim()}`;
+}
+function groupBy(values, categorize) {
+    return values.reduce((acc, currentValue) => {
+        const key = categorize(currentValue);
+        if (acc[key]) {
+            acc[key].push(currentValue);
+        }
+        else {
+            acc[key] = [currentValue];
+        }
+        return acc;
+    }, {});
 }
