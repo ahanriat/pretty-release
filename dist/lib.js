@@ -1,5 +1,7 @@
-import { groupBy } from 'lodash';
-import fs from 'fs';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const lodash_1 = require("lodash");
+const fs_1 = require("fs");
 const categoryOrder = [
     { type: 'feature', label: '### Features 🧬:' },
     { type: 'enhancement', label: '### Enhancements ⚡️:' },
@@ -9,13 +11,14 @@ const categoryOrder = [
     { type: 'doc', label: '### Doc 📖:' },
     { type: 'unknown', label: '### To be sorted 👈' },
 ];
-export function prettifyReleaseFromFile(releaseNotePath, outputFilePath) {
-    const rawReleaseNote = fs.readFileSync(releaseNotePath).toString();
-    fs.writeFileSync(outputFilePath, prettifyRelease(rawReleaseNote));
+function prettifyReleaseFromFile(releaseNotePath, outputFilePath) {
+    const rawReleaseNote = fs_1.default.readFileSync(releaseNotePath).toString();
+    fs_1.default.writeFileSync(outputFilePath, prettifyRelease(rawReleaseNote));
 }
-export function prettifyRelease(release) {
+exports.prettifyReleaseFromFile = prettifyReleaseFromFile;
+function prettifyRelease(release) {
     const { title, messages } = parseRelease(release);
-    const groupedMessages = groupBy(messages, categorizeMessage);
+    const groupedMessages = lodash_1.groupBy(messages, categorizeMessage);
     const categories = categoryOrder
         .map(categ => {
         const messagesForCategory = groupedMessages[categ.type];
@@ -37,7 +40,8 @@ ${messagesForCategory
 ${categories}
   `;
 }
-export function parseRelease(release) {
+exports.prettifyRelease = prettifyRelease;
+function parseRelease(release) {
     const parsed = release
         .split('\n')
         .map(trimLine)
@@ -47,10 +51,12 @@ export function parseRelease(release) {
         messages: parsed.filter(isMessage),
     };
 }
-export function categorizeMessage(message) {
+exports.parseRelease = parseRelease;
+function categorizeMessage(message) {
     const match = MATCHERS.find(matcher => matcher.regex.test(message));
     return !!match ? match.category : 'unknown';
 }
+exports.categorizeMessage = categorizeMessage;
 const MATCHERS = [
     {
         category: 'feature',

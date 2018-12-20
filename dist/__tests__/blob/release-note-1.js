@@ -1,4 +1,6 @@
-export const ugglyReleaseNote = `
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ugglyReleaseNote = `
 ## v4.2.0:
  - 🐛Fix missing translation on WorkoutPlanReadyScreen (#1891) (Antoine Hanriat)
  - Experiment: Hard conclude 1803-currency-symbols (#1887) (Antoine Hanriat)
@@ -33,7 +35,7 @@ export const ugglyReleaseNote = `
  - Fix Readme links to react/ -> src/ (ahanriat)
  - ⬆Upgrade appboy-sdk (Braze) (#1950) (Antoine Hanriat)
 `;
-export const prettyReleaseNote = `## v4.2.0:
+exports.prettyReleaseNote = `## v4.2.0:
 
 ### Features 🧬:
   - Experiment: Hard conclude 1803-currency-symbols (#1887) (Antoine Hanriat)
