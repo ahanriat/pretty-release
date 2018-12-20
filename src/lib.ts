@@ -1,43 +1,59 @@
-type Category = 'feature' | 'enhancement' | 'analytics' | 'fix' | 'upgrade' | 'doc' | 'unknown';
-
-const categoryOrder: Array<{
-  type: Category;
+interface Group {
   label: string;
-}> = [
-  { type: 'feature', label: '### Features 🧬:' },
-  { type: 'enhancement', label: '### Enhancements ⚡️:' },
-  { type: 'analytics', label: '### Analytics 📊:' },
-  { type: 'fix', label: '### Bug fixes 🐛:' },
-  { type: 'upgrade', label: '### Library upgrade ⬆️:' },
-  { type: 'doc', label: '### Doc 📖:' },
-  { type: 'unknown', label: '### To be sorted 👈' },
+  matcher(message: string): boolean;
+}
+
+const orderedGroups: Group[] = [
+  {
+    label: '### Features 🧬:',
+    matcher: message => /.*(feature|feat|🧬|experiment).*/i.test(message),
+  },
+  {
+    label: '### Enhancements ⚡️:',
+    matcher: message => /.*(enhance|enhancement|polish|clean|lint|⚡️|💄).*/i.test(message),
+  },
+  {
+    label: '### Analytics 📊:',
+    matcher: message => /.*(analytics|snowplow|amplitude).*/i.test(message),
+  },
+  {
+    label: '### Library upgrade ⬆️:',
+    matcher: message => /.*(upgrade|⬆️).*/i.test(message),
+  },
+  {
+    label: '### Technical 🛠:',
+    matcher: message => /.*(tooling|tech|chore|🛠).*/i.test(message),
+  },
+  {
+    label: '### Bug fixes 🐛:',
+    matcher: message => /.*(bug|fix|fixed|fixes|hotfix|🐛).*/i.test(message),
+  },
+  {
+    label: '### Doc 📖:',
+    matcher: message => /.*(doc|wiki|documentation|readme|📖).*/i.test(message),
+  },
+  {
+    label: '### To be sorted 👈:',
+    matcher: () => true,
+  },
 ];
 
 export function prettifyRelease(release: string): string {
   const { title, messages } = parseRelease(release);
 
-  const groupedMessages = groupBy(messages, categorizeMessage);
+  const categorizedMessages = messages.reduce((results, message) => {
+    const categoryIndex = orderedGroups.findIndex(group => group.matcher(message));
+    if (categoryIndex >= 0) {
+      results[categoryIndex].messages.push(message);
+    }
+    return results;
+  }, orderedGroups.map(group => ({ label: group.label, messages: [] as string[] })));
 
-  const categories = categoryOrder
-    .map(categ => {
-      const messagesForCategory = groupedMessages[categ.type];
-      if (!messagesForCategory) {
-        return '';
-      }
-      return `
-${categ.label}
-${messagesForCategory
-        .map(prettifyMessage)
-        .sort()
-        .join('\n')}`;
-    })
-    .filter(section => !!section)
-    .join('\n\n')
-    .trim();
-  return `${title}
+  const prettyMessages = categorizedMessages.map(
+    group => `\n${group.label}\n${group.messages.map(prettifyMessage).sort().join('\n')}`,
+  );
 
-${categories}
-  `;
+  return `${title}\n${prettyMessages.join('\n\n')}`;
 }
 
 interface ParsedReleaseNote {
@@ -56,38 +72,6 @@ export function parseRelease(release: string): ParsedReleaseNote {
   };
 }
 
-export function categorizeMessage(message: string): Category {
-  const match = MATCHERS.find(matcher => matcher.regex.test(message));
-  return !!match ? match.category : 'unknown';
-}
-
-const MATCHERS: Array<{ category: Category; regex: RegExp }> = [
-  {
-    category: 'feature',
-    regex: /.*(feature|feat|🧬|experiment).*/i,
-  },
-  {
-    category: 'enhancement',
-    regex: /.*(enhance|enhancement|⚡️|💄).*/i,
-  },
-  {
-    category: 'analytics',
-    regex: /.*(analytics|snowplow|amplitude).*/i,
-  },
-  {
-    category: 'upgrade',
-    regex: /.*(upgrade|⬆️).*/i,
-  },
-  {
-    category: 'fix',
-    regex: /.*(bug|fix|fixed|fixes|hotfix|🐛).*/i,
-  },
-  {
-    category: 'doc',
-    regex: /.*(doc|wiki|documentation|readme|📖).*/i,
-  },
-];
-
 function isNotEmpty(line?: string): boolean {
   return !!line;
 }
@@ -105,19 +89,4 @@ function isMessage(line: string = ''): boolean {
  */
 function prettifyMessage(message: string) {
   return `  - ${message.replace('-', '').trim()}`;
-}
-
-function groupBy<T>(values: T[], categorize: (message: T) => string): { [key: string]: T[] } {
-  return values.reduce(
-    (acc, currentValue) => {
-      const key = categorize(currentValue);
-      if (acc[key]) {
-        acc[key].push(currentValue);
-      } else {
-        acc[key] = [currentValue];
-      }
-      return acc;
-    },
-    {} as { [key: string]: T[] },
-  );
 }

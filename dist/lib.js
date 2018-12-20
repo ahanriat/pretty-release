@@ -1,37 +1,50 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const categoryOrder = [
-    { type: 'feature', label: '### Features 🧬:' },
-    { type: 'enhancement', label: '### Enhancements ⚡️:' },
-    { type: 'analytics', label: '### Analytics 📊:' },
-    { type: 'fix', label: '### Bug fixes 🐛:' },
-    { type: 'upgrade', label: '### Library upgrade ⬆️:' },
-    { type: 'doc', label: '### Doc 📖:' },
-    { type: 'unknown', label: '### To be sorted 👈' },
+const orderedGroups = [
+    {
+        label: '### Features 🧬:',
+        matcher: message => /.*(feature|feat|🧬|experiment).*/i.test(message),
+    },
+    {
+        label: '### Enhancements ⚡️:',
+        matcher: message => /.*(enhance|enhancement|polish|clean|lint|⚡️|💄).*/i.test(message),
+    },
+    {
+        label: '### Analytics 📊:',
+        matcher: message => /.*(analytics|snowplow|amplitude).*/i.test(message),
+    },
+    {
+        label: '### Library upgrade ⬆️:',
+        matcher: message => /.*(upgrade|⬆️).*/i.test(message),
+    },
+    {
+        label: '### Technical 🛠:',
+        matcher: message => /.*(tooling|tech|chore|🛠).*/i.test(message),
+    },
+    {
+        label: '### Bug fixes 🐛:',
+        matcher: message => /.*(bug|fix|fixed|fixes|hotfix|🐛).*/i.test(message),
+    },
+    {
+        label: '### Doc 📖:',
+        matcher: message => /.*(doc|wiki|documentation|readme|📖).*/i.test(message),
+    },
+    {
+        label: '### To be sorted 👈:',
+        matcher: () => true,
+    },
 ];
 function prettifyRelease(release) {
     const { title, messages } = parseRelease(release);
-    const groupedMessages = groupBy(messages, categorizeMessage);
-    const categories = categoryOrder
-        .map(categ => {
-        const messagesForCategory = groupedMessages[categ.type];
-        if (!messagesForCategory) {
-            return '';
+    const categorizedMessages = messages.reduce((results, message) => {
+        const categoryIndex = orderedGroups.findIndex(group => group.matcher(message));
+        if (categoryIndex >= 0) {
+            results[categoryIndex].messages.push(message);
         }
-        return `
-${categ.label}
-${messagesForCategory
-            .map(prettifyMessage)
-            .sort()
-            .join('\n')}`;
-    })
-        .filter(section => !!section)
-        .join('\n\n')
-        .trim();
-    return `${title}
-
-${categories}
-  `;
+        return results;
+    }, orderedGroups.map(group => ({ label: group.label, messages: [] })));
+    const prettyMessages = categorizedMessages.map(group => `\n${group.label}\n${group.messages.map(prettifyMessage).sort().join('\n')}`);
+    return `${title}\n${prettyMessages.join('\n\n')}`;
 }
 exports.prettifyRelease = prettifyRelease;
 function parseRelease(release) {
@@ -45,37 +58,6 @@ function parseRelease(release) {
     };
 }
 exports.parseRelease = parseRelease;
-function categorizeMessage(message) {
-    const match = MATCHERS.find(matcher => matcher.regex.test(message));
-    return !!match ? match.category : 'unknown';
-}
-exports.categorizeMessage = categorizeMessage;
-const MATCHERS = [
-    {
-        category: 'feature',
-        regex: /.*(feature|feat|🧬|experiment).*/i,
-    },
-    {
-        category: 'enhancement',
-        regex: /.*(enhance|enhancement|⚡️|💄).*/i,
-    },
-    {
-        category: 'analytics',
-        regex: /.*(analytics|snowplow|amplitude).*/i,
-    },
-    {
-        category: 'upgrade',
-        regex: /.*(upgrade|⬆️).*/i,
-    },
-    {
-        category: 'fix',
-        regex: /.*(bug|fix|fixed|fixes|hotfix|🐛).*/i,
-    },
-    {
-        category: 'doc',
-        regex: /.*(doc|wiki|documentation|readme|📖).*/i,
-    },
-];
 function isNotEmpty(line) {
     return !!line;
 }
@@ -90,16 +72,4 @@ function isMessage(line = '') {
  */
 function prettifyMessage(message) {
     return `  - ${message.replace('-', '').trim()}`;
-}
-function groupBy(values, categorize) {
-    return values.reduce((acc, currentValue) => {
-        const key = categorize(currentValue);
-        if (acc[key]) {
-            acc[key].push(currentValue);
-        }
-        else {
-            acc[key] = [currentValue];
-        }
-        return acc;
-    }, {});
 }
