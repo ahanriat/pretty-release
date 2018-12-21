@@ -10,7 +10,7 @@ const orderedGroups: Group[] = [
   },
   {
     label: '### Enhancements ⚡️:',
-    matcher: message => /.*(enhance|enhancement|polish|clean|lint|⚡️|💄).*/i.test(message),
+    matcher: message => /.*(enhance|enhancement|improvement|polish|clean|lint|⚡️|💄).*/i.test(message),
   },
   {
     label: '### Analytics 📊:',
