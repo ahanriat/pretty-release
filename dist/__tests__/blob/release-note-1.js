@@ -35,3 +35,21 @@ exports.ugglyReleaseNote = `
  - Fix Readme links to react/ -> src/ (ahanriat)
  - ⬆Upgrade appboy-sdk (Braze) (#1950) (Antoine Hanriat)
 `;
+exports.ugglyReleaseNote2 = `### Features 🧬:
+### Features 🧬:
+
+### Enhancements ⚡️:
+
+### Analytics 📊:
+
+### Library upgrade ⬆️:
+
+### Technical 🛠:
+
+### Bug fixes 🐛:
+  - Fix/Double workouts logged (#2976) (Nikita Nikitin)
+
+### Doc 📖:
+
+### To be sorted 👈:
+\n - Fix Env used in building iOS app (#3018) (Mohamed Shaban)`;

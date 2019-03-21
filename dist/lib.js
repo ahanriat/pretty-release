@@ -35,7 +35,7 @@ const orderedGroups = [
     },
 ];
 function prettifyRelease(release) {
-    const { title, messages } = parseRelease(release);
+    const { messages } = parseRelease(release);
     const categorizedMessages = messages.reduce((results, message) => {
         const categoryIndex = orderedGroups.findIndex(group => group.matcher(message));
         if (categoryIndex >= 0) {
@@ -43,8 +43,11 @@ function prettifyRelease(release) {
         }
         return results;
     }, orderedGroups.map(group => ({ label: group.label, messages: [] })));
-    const prettyMessages = categorizedMessages.map(group => `\n${group.label}\n${group.messages.map(prettifyMessage).sort().join('\n')}`);
-    return `${title}\n${prettyMessages.join('\n\n')}`;
+    const prettyMessages = categorizedMessages.map(group => `\n${group.label}\n${group.messages
+        .map(prettifyMessage)
+        .sort()
+        .join('\n')}`);
+    return `${prettyMessages.join('\n\n')}`;
 }
 exports.prettifyRelease = prettifyRelease;
 function parseRelease(release) {
@@ -52,8 +55,12 @@ function parseRelease(release) {
         .split('\n')
         .map(trimLine)
         .filter(isNotEmpty);
+    if (parsed.length === 0) {
+        return {
+            messages: [],
+        };
+    }
     return {
-        title: parsed[0],
         messages: parsed.filter(isMessage),
     };
 }

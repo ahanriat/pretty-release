@@ -1,8 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`pretty release prettifyRelease Prettify the release note is re entrant: prettyRelease 1`] = `
-"## v4.2.0:
+exports[`pretty release prettifyRelease Prettify the release note 2/: prettyRelease2 1`] = `
+"
+### Features 🧬:
 
+
+
+### Enhancements ⚡️:
+
+
+
+### Analytics 📊:
+
+
+
+### Library upgrade ⬆️:
+
+
+
+### Technical 🛠:
+
+
+
+### Bug fixes 🐛:
+  - Fix Env used in building iOS app (#3018) (Mohamed Shaban)
+  - Fix/Double workouts logged (#2976) (Nikita Nikitin)
+
+
+### Doc 📖:
+
+
+
+### To be sorted 👈:
+"
+`;
+
+exports[`pretty release prettifyRelease Prettify the release note is re entrant: prettyRelease 1`] = `
+"
 ### Features 🧬:
   - Experiment: Hard conclude 1803-currency-symbols (#1887) (Antoine Hanriat)
   - 🚛 Feat: Exercise store (#1898) (Stefano Bourscheid)
@@ -60,8 +94,7 @@ exports[`pretty release prettifyRelease Prettify the release note is re entrant:
 `;
 
 exports[`pretty release prettifyRelease Prettify the release note: prettyRelease 1`] = `
-"## v4.2.0:
-
+"
 ### Features 🧬:
   - Experiment: Hard conclude 1803-currency-symbols (#1887) (Antoine Hanriat)
   - 🚛 Feat: Exercise store (#1898) (Stefano Bourscheid)

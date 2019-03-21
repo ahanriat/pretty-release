@@ -10,7 +10,8 @@ const orderedGroups: Group[] = [
   },
   {
     label: '### Enhancements ⚡️:',
-    matcher: message => /.*(enhance|enhancement|improvement|polish|clean|lint|⚡️|💄).*/i.test(message),
+    matcher: message =>
+      /.*(enhance|enhancement|improvement|polish|clean|lint|⚡️|💄).*/i.test(message),
   },
   {
     label: '### Analytics 📊:',
@@ -39,7 +40,7 @@ const orderedGroups: Group[] = [
 ];
 
 export function prettifyRelease(release: string): string {
-  const { title, messages } = parseRelease(release);
+  const { messages } = parseRelease(release);
 
   const categorizedMessages = messages.reduce((results, message) => {
     const categoryIndex = orderedGroups.findIndex(group => group.matcher(message));
@@ -50,14 +51,17 @@ export function prettifyRelease(release: string): string {
   }, orderedGroups.map(group => ({ label: group.label, messages: [] as string[] })));
 
   const prettyMessages = categorizedMessages.map(
-    group => `\n${group.label}\n${group.messages.map(prettifyMessage).sort().join('\n')}`,
+    group =>
+      `\n${group.label}\n${group.messages
+        .map(prettifyMessage)
+        .sort()
+        .join('\n')}`,
   );
 
-  return `${title}\n${prettyMessages.join('\n\n')}`;
+  return `${prettyMessages.join('\n\n')}`;
 }
 
 interface ParsedReleaseNote {
-  title: string;
   messages: string[];
 }
 export function parseRelease(release: string): ParsedReleaseNote {
@@ -66,8 +70,13 @@ export function parseRelease(release: string): ParsedReleaseNote {
     .map(trimLine)
     .filter(isNotEmpty);
 
+  if (parsed.length === 0) {
+    return {
+      messages: [],
+    };
+  }
+
   return {
-    title: parsed[0],
     messages: parsed.filter(isMessage),
   };
 }
