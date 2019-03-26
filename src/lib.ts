@@ -23,7 +23,7 @@ export const orderedGroups: Group[] = [
   },
   {
     label: '### Technical 🛠:',
-    matcher: message => /.*(tooling|tech|chore|🛠).*/i.test(message),
+    matcher: message => /.*(tooling|tech|chore|e2e|🛠).*/i.test(message),
   },
   {
     label: '### Bug fixes 🐛:',
