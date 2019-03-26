@@ -3,7 +3,7 @@ interface Group {
   matcher(message: string): boolean;
 }
 
-const orderedGroups: Group[] = [
+export const orderedGroups: Group[] = [
   {
     label: '### Features 🧬:',
     matcher: message => /.*(feature|feat|🧬|experiment).*/i.test(message),

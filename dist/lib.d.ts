@@ -1,3 +1,8 @@
+interface Group {
+    label: string;
+    matcher(message: string): boolean;
+}
+export declare const orderedGroups: Group[];
 export declare function prettifyRelease(release: string): string;
 interface ParsedReleaseNote {
     messages: string[];

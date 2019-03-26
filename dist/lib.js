@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const orderedGroups = [
+exports.orderedGroups = [
     {
         label: '### Features 🧬:',
         matcher: message => /.*(feature|feat|🧬|experiment).*/i.test(message),
@@ -37,12 +37,12 @@ const orderedGroups = [
 function prettifyRelease(release) {
     const { messages } = parseRelease(release);
     const categorizedMessages = messages.reduce((results, message) => {
-        const categoryIndex = orderedGroups.findIndex(group => group.matcher(message));
+        const categoryIndex = exports.orderedGroups.findIndex(group => group.matcher(message));
         if (categoryIndex >= 0) {
             results[categoryIndex].messages.push(message);
         }
         return results;
-    }, orderedGroups.map(group => ({ label: group.label, messages: [] })));
+    }, exports.orderedGroups.map(group => ({ label: group.label, messages: [] })));
     const prettyMessages = categorizedMessages.map(group => `\n${group.label}\n${group.messages
         .map(prettifyMessage)
         .sort()
