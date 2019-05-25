@@ -5,8 +5,8 @@ interface Group {
 
 export const orderedGroups: Group[] = [
   {
-    label: '### Features 🧬:',
-    matcher: message => /.*(feature|feat|🧬|experiment).*/i.test(message),
+    label: '### Features 💎:',
+    matcher: message => /.*(feature|feat|💎|experiment).*/i.test(message),
   },
   {
     label: '### Enhancements ⚡️:',
