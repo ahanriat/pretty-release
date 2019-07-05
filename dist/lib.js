@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.orderedGroups = [
     {
-        label: '### Features 🧬:',
-        matcher: message => /.*(feature|feat|🧬|experiment).*/i.test(message),
+        label: '### Features 💎:',
+        matcher: message => /.*(feature|feat|💎|experiment).*/i.test(message),
     },
     {
         label: '### Enhancements ⚡️:',

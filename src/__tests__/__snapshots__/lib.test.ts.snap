@@ -2,7 +2,7 @@
 
 exports[`pretty release prettifyRelease Prettify the release note 2/: prettyRelease2 1`] = `
 "
-### Features 🧬:
+### Features 💎:
 
 
 
@@ -37,7 +37,7 @@ exports[`pretty release prettifyRelease Prettify the release note 2/: prettyRele
 
 exports[`pretty release prettifyRelease Prettify the release note is re entrant: prettyRelease 1`] = `
 "
-### Features 🧬:
+### Features 💎:
   - Experiment: Hard conclude 1803-currency-symbols (#1887) (Antoine Hanriat)
   - 🚛 Feat: Exercise store (#1898) (Stefano Bourscheid)
 
@@ -95,7 +95,7 @@ exports[`pretty release prettifyRelease Prettify the release note is re entrant:
 
 exports[`pretty release prettifyRelease Prettify the release note: prettyRelease 1`] = `
 "
-### Features 🧬:
+### Features 💎:
   - Experiment: Hard conclude 1803-currency-symbols (#1887) (Antoine Hanriat)
   - 🚛 Feat: Exercise store (#1898) (Stefano Bourscheid)
 
