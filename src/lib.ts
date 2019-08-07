@@ -22,8 +22,12 @@ export const orderedGroups: Group[] = [
     matcher: message => /.*(upgrade|⬆️).*/i.test(message),
   },
   {
-    label: '### Technical 🛠:',
-    matcher: message => /.*(tooling|tech|chore|e2e|🛠).*/i.test(message),
+    label: '### Technical 👨‍🔧:',
+    matcher: message => /.*(tech|chore|e2e).*/i.test(message),
+  },
+  {
+    label: '### Tooling 🛠:',
+    matcher: message => /.*(tooling).*/i.test(message),
   },
   {
     label: '### Bug fixes 🐛:',
